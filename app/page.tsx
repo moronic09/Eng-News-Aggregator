@@ -1,65 +1,63 @@
-import Image from "next/image";
+import { Suspense } from 'react'
+import Feed from './components/Feed'
+import LeftNav from './components/LeftNav'
+import RightSidebar from './components/RightSidebar'
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <div className="min-h-screen bg-[#02050f] text-white">
+      <div className="mx-auto max-w-6xl px-4 py-8">
+        <header className="mb-8 rounded-[28px] border border-white/10 bg-[#040916]/80 p-6 shadow-[0_25px_80px_rgba(15,23,42,0.35)] backdrop-blur-xl">
+          <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
+            <div className="flex items-center gap-4">
+              <div className="flex h-14 w-14 items-center justify-center rounded-3xl bg-white text-2xl font-bold text-[#0f172a]">E</div>
+              <div>
+                <p className="text-sm uppercase tracking-[0.3em] text-[#7dd3fc]">EngUpdates</p>
+                <h1 className="mt-2 text-3xl font-semibold text-white">Engineering resources and news, simplified.</h1>
+              </div>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {['Live feed', 'Curated resources', 'AI + systems', 'Research'].map((tag) => (
+                <span key={tag} className="rounded-full border border-[#7dd3fc]/20 bg-[#7dd3fc]/10 px-3 py-1 text-sm text-[#7dd3fc]">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </div>
+          <p className="mt-4 max-w-3xl text-sm leading-7 text-[#cbd5e1]">
+            Explore the latest projects, curated links, and trending engineering updates. The feed keeps a crisp layout while staying easy to scan on desktop and mobile.
           </p>
+
+          <div className="mt-6 grid gap-3 sm:grid-cols-3">
+            <div className="rounded-2xl border border-white/10 bg-[#02050f]/70 p-4">
+              <div className="text-2xl font-semibold text-white">71+</div>
+              <div className="mt-1 text-sm text-[#94a3b8]">Fresh stories</div>
+            </div>
+            <div className="rounded-2xl border border-white/10 bg-[#02050f]/70 p-4">
+              <div className="text-2xl font-semibold text-white">4 sources</div>
+              <div className="mt-1 text-sm text-[#94a3b8]">GitHub, arXiv, Dev.to, Hacker News</div>
+            </div>
+            <div className="rounded-2xl border border-white/10 bg-[#02050f]/70 p-4">
+              <div className="text-2xl font-semibold text-white">1-click</div>
+              <div className="mt-1 text-sm text-[#94a3b8]">Open and explore in one flow</div>
+            </div>
+          </div>
+        </header>
+
+        <div className="grid grid-cols-12 gap-6">
+          <div className="col-span-12 lg:col-span-2"><LeftNav /></div>
+          <div className="col-span-12 lg:col-span-7">
+            <Suspense fallback={<div className="rounded-md border border-white/10 bg-[#07182a] p-6 text-sm text-[#94a3b8]">Loading feed…</div>}>
+              <Feed />
+            </Suspense>
+          </div>
+          <div className="col-span-12 lg:col-span-3">
+            <Suspense fallback={<div className="rounded-md border border-white/10 bg-[#07182a] p-6 text-sm text-[#94a3b8]">Loading sidebar…</div>}>
+              <RightSidebar />
+            </Suspense>
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+      </div>
     </div>
-  );
+  )
 }
