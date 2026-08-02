@@ -1,5 +1,6 @@
 import { Suspense } from 'react'
 import Feed from './components/Feed'
+import HeaderStats from './components/HeaderStats'
 import LeftNav from './components/LeftNav'
 import RightSidebar from './components/RightSidebar'
 
@@ -28,20 +29,7 @@ export default function Home() {
             Explore the latest projects, curated links, and trending engineering updates. The feed keeps a crisp layout while staying easy to scan on desktop and mobile.
           </p>
 
-          <div className="mt-6 grid gap-3 sm:grid-cols-3">
-            <div className="rounded-2xl border border-white/10 bg-[#02050f]/70 p-4">
-              <div className="text-2xl font-semibold text-white">71+</div>
-              <div className="mt-1 text-sm text-[#94a3b8]">Fresh stories</div>
-            </div>
-            <div className="rounded-2xl border border-white/10 bg-[#02050f]/70 p-4">
-              <div className="text-2xl font-semibold text-white">4 sources</div>
-              <div className="mt-1 text-sm text-[#94a3b8]">GitHub, arXiv, Dev.to, Hacker News</div>
-            </div>
-            <div className="rounded-2xl border border-white/10 bg-[#02050f]/70 p-4">
-              <div className="text-2xl font-semibold text-white">1-click</div>
-              <div className="mt-1 text-sm text-[#94a3b8]">Open and explore in one flow</div>
-            </div>
-          </div>
+          <HeaderStats initialCount={71} />
         </header>
 
         <div className="grid grid-cols-12 gap-6">

@@ -5,11 +5,12 @@ export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const source = searchParams.get('source') || undefined;
   const q = searchParams.get('q') || undefined;
-  const limit = parseInt(searchParams.get('limit') || '20', 10);
+  const sort = searchParams.get('sort') || 'latest';
+  const limit = parseInt(searchParams.get('limit') || '30', 10);
   const offset = parseInt(searchParams.get('offset') || '0', 10);
 
   const where: any = {};
-  if (source && source !== 'Latest') {
+  if (source && source !== 'Latest' && source !== 'Saved') {
     where.source = source;
   }
   if (q) {
@@ -25,16 +26,24 @@ export async function GET(req: NextRequest) {
 
   const likesRows = await prisma.itemLike.findMany();
   const likesMap: Record<string, number> = {};
-  likesRows.forEach((row) => { likesMap[row.itemKey] = row.count; });
+  likesRows.forEach((row) => {
+    likesMap[row.itemKey] = row.count;
+  });
 
   const lastItem = await prisma.item.findFirst({ orderBy: { date: 'desc' } });
   const lastUpdated = lastItem?.date || new Date().toISOString();
 
-  const payload = items.map((it) => ({
+  let payload = items.map((it) => ({
     ...it,
     likes: likesMap[String(it.id)] || 0,
     item_key: String(it.id),
   }));
 
-  return NextResponse.json({ items: payload, lastUpdated });
+  if (sort === 'liked' || sort === 'hot') {
+    payload.sort((a, b) => b.likes - a.likes);
+  }
+
+  const totalCount = await prisma.item.count();
+
+  return NextResponse.json({ items: payload, lastUpdated, totalCount });
 }
